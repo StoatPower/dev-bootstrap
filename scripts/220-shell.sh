@@ -45,6 +45,19 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 
+# GPG terminal integration
+if tty -s; then
+  export GPG_TTY="$(tty)"
+fi
+
+# Managed environment fragments
+if [ -d "$HOME/.config/dev-bootstrap/env" ]; then
+  for env_file in "$HOME/.config/dev-bootstrap/env/"*.sh; do
+    [ -r "$env_file" ] && source "$env_file"
+  done
+  unset env_file
+fi
+
 # Smart directory navigation
 eval "$(zoxide init bash)"
 
